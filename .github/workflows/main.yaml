@@ -31,7 +31,7 @@ jobs:
           test_collection_run: ${{ steps.start-fuzzing.outputs.test_collection_run }}
           fuzzing_server_address: ${{ env.FUZZING_SERVER_ADDRESS }}
           dashboard_address: ${{ env.WEB_APP_ADDRESS }}
-          timeout: 1800
+          timeout: 300
       - id: save-results
         name: Save Fuzz Test Results
         uses: CodeIntelligenceTesting/github-actions/save-results@v3

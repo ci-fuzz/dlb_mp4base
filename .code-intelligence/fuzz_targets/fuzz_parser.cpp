@@ -5,8 +5,15 @@
 #include <registry.h>
 
 #include <test_util.h>
-#include "file_input.h"
 
+const char* write_to_file(const uint8_t *Data, size_t Size) {
+   const char* filename = "/tmp/fuzz_input";
+   FILE *fp;
+   fp = fopen(filename, "w+");
+   fwrite(Data, Size, 1, fp);
+   fclose(fp);
+   return filename;
+}
 
 static void test_parsing(parser_handle_t parser){
     if (parser->show_info != NULL)
@@ -99,15 +106,13 @@ extern "C" int FUZZ_INIT() {
   return 0;
 }
 
-
-
 extern "C" int FUZZ(const uint8_t *Data, size_t Size) {
-  auto file = ci::input_file(Data, Size);
+  auto file = write_to_file(Data, Size);
 
-  test_parser(file.name(), (const int8_t *)"aac");
-  test_parser(file.name(), (const int8_t *)"ac3");
-  test_parser(file.name(), (const int8_t *)"ec3");
-  test_parser(file.name(), (const int8_t *)"avc");
+  test_parser(file, (const int8_t *)"aac");
+  test_parser(file, (const int8_t *)"ac3");
+  test_parser(file, (const int8_t *)"ec3");
+  test_parser(file, (const int8_t *)"avc");
 
   return 0;
 }
