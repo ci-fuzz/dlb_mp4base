@@ -252,6 +252,9 @@ mp4muxer_debug: $(OBJS_mp4muxer_debug) $(BASE)dlb_mp4base/make/libmp4base/linux_
 $(BASE)dlb_mp4base/make/libmp4base/linux_amd64/libmp4base_debug.a: force
 	$(AT)make $(QUIET) --no-print-directory -C $(BASE)dlb_mp4base/make/libmp4base/linux_amd64 libmp4base_debug.a
 
+fuzz_parser: $(BASE)dlb_mp4base/make/libmp4base/linux_amd64/libmp4base_debug.a
+	${CXX} ${CXXFLAGS} ${FUZZ_TEST_CXXFLAGS} ${FUZZ_TEST_LDFLAGS} -o $@ $(BASE)dlb_mp4base/test/cifuzz/$@.cpp $(BASE)dlb_mp4base/test/cifuzz/file_input.cpp $(BASE)dlb_mp4base/test/cifuzz/fuzz_utils.cc $(BASE)dlb_mp4base/make/libmp4base/linux_amd64/libmp4base_debug.a -I$(BASE)dlb_mp4base/include -I$(BASE)dlb_mp4base/test/unit
+
 
 
 clean:
@@ -262,3 +265,4 @@ clean:
 	$(RM) mp4muxer_release
 	make -C $(BASE)dlb_mp4base/make/libmp4base/linux_amd64 clean
 	$(RM) mp4muxer_debug
+	$(RM) fuzz_parser
