@@ -45,3 +45,5 @@ server: https://app.code-intelligence.com
 
 ## Set the project name on the CI Fuzz Server
 #project: my-project-1a2b3c4d
+#server: https://app.code-intelligence.com/
+project: dlb_mp4base-941cf2a7
